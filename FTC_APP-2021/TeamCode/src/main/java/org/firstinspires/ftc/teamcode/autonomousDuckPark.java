@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/home/psapackage org.firstinspires.ftc.teamcode;
 
 public class autonomousDuckPark {
 
