@@ -72,6 +72,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
+    private DcMotor spin, vert1, vert2, hori;
+
     private BNO055IMU imu;
     private VoltageSensor batteryVoltageSensor;
 
@@ -121,6 +123,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
+        spin = hardwareMap.get(DcMotor.class, "spin");
+        vert1 = hardwareMap.get(DcMotor.class, "v1");
+        vert2 = hardwareMap.get(DcMotor.class, "v2");
+        hori = hardwareMap.get(DcMotor.class, "h");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -292,7 +298,24 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear.setPower(v1);
         rightRear.setPower(v2);
         rightFront.setPower(v3);
+
     }
+
+    public void setSpin(double a){
+        spin.setPower(a);
+    }
+
+    public void setVert(double a){
+        vert1.setPower(a);
+        vert2.setPower(a);
+    }
+
+    public void setHori(double a){
+        hori.setPower(a);
+    }
+
+
+
 
     @Override
     public double getRawExternalHeading() {
