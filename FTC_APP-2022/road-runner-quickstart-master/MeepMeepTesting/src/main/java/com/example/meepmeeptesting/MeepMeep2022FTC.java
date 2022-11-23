@@ -15,17 +15,38 @@ public class MeepMeep2022FTC {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 15)
                 .followTrajectorySequence(drive ->
                         drive.trajectorySequenceBuilder(new Pose2d(35, -59, Math.toRadians(90)))
-                                //.strafeTo(new Vector2d(35.8,-10.84))
-                                .strafeTo(new Vector2d(10.6,-60.8))
-                                .lineToConstantHeading(new Vector2d(10.4, -12.1))
-                                /*.forward(30)
-                                .turn(Math.toRadians(90))
-                                .forward(30)
-                                .turn(Math.toRadians(90))
-                                .forward(30)
-                                .turn(Math.toRadians(90))
-                                .forward(30)
-                                .turn(Math.toRadians(90))*/
+
+
+
+
+                                
+                                /*TILE F5 RED SIDE{
+
+
+                                /*
+                                Signal location 1(
+                                .lineToConstantHeading(new Vector2d(12.4, -22.3))
+                                )
+                                */
+                                /*
+                               Signal Location 2(
+                               .strafeTo(new Vector2d(10.6,-60.8))
+                               .splineToConstantHeading(new Vector2d(34.8,-22.3),Math.toRadians(90))
+                               )
+                               */
+                                /*
+                                Signal Location 3
+                                (
+                                .strafeRight(30)
+                                .lineToConstantHeading(new Vector2d(56.9, -22.3))
+                                )
+                                */
+
+
+
+
+
+
                                 .build()
                 );
 
