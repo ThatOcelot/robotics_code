@@ -282,7 +282,4 @@ public class ftc2021 {
         intakeMechanismRight.setPosition(deploy ? 1.0 : .65);
         intakeMechanismLeft.setPosition(deploy ? 0-1.0 :.65);
     }
-*/
-
-
-
+    */

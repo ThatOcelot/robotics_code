@@ -24,6 +24,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -73,6 +74,8 @@ public class SampleMecanumDrive extends MecanumDrive {
     private List<DcMotorEx> motors;
 
     private DcMotor spin, vert1, vert2, hori;
+
+    private Servo grab1, grab2;
 
     private BNO055IMU imu;
     private VoltageSensor batteryVoltageSensor;
@@ -127,6 +130,9 @@ public class SampleMecanumDrive extends MecanumDrive {
         vert1 = hardwareMap.get(DcMotor.class, "v1");
         vert2 = hardwareMap.get(DcMotor.class, "v2");
         hori = hardwareMap.get(DcMotor.class, "h");
+
+        grab1 = hardwareMap.get(Servo.class, "grab1");
+        grab2 = hardwareMap.get(Servo.class, "grab2");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -312,6 +318,13 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     public void setHori(double a){
         hori.setPower(a);
+    }
+
+
+    public void setGrab(boolean deploy)
+    {
+        grab1.setPosition(deploy ? 0.0 : 0.75);
+        grab2.setPosition(deploy ? 0.0 : 0.75);
     }
 
 

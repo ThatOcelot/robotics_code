@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
@@ -35,6 +36,10 @@ public class teleOP2022 extends LinearOpMode {
 
 
             );
+
+            // An Enum is used to represent lift states.
+                // (This is one thing enums are designed to do)
+            
             //Makes the carousel spin clockwise when pressing dpad right, and spin counterclockwise
             //when pressing dpad left
             if (gamepad2.dpad_right)
@@ -61,12 +66,14 @@ public class teleOP2022 extends LinearOpMode {
             //Makes horizontal slide go forward when pressing x, and backward when pressing b
             if (gamepad2.x)
             {
-                drive.setHori(0.7);
+                drive.setGrab(true);
             }
             else if (gamepad2.b)
             {
-                drive.setHori(-0.6);
+                drive.setGrab(false);
             }
+
+
 
 
 
