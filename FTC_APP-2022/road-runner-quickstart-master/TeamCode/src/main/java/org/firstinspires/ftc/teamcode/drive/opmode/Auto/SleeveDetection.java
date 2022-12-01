@@ -48,6 +48,7 @@ public class SleeveDetection extends OpenCvPipeline {
     // Running variable storing the parking position
     private volatile ParkingPosition position = ParkingPosition.LEFT;
 
+
     @Override
     public Mat processFrame(Mat input) {
         // Get the submat frame, and then sum all the values

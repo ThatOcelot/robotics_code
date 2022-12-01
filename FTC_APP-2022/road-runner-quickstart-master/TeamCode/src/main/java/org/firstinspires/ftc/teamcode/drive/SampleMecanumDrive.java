@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.drive;
 
+
+
 import androidx.annotation.NonNull;
 
 import com.acmerobotics.dashboard.config.Config;
@@ -31,12 +33,12 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
+
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ACCEL;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_ACCEL;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MAX_ANG_VEL;
@@ -45,9 +47,6 @@ import static org.firstinspires.ftc.teamcode.drive.DriveConstants.MOTOR_VELO_PID
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.RUN_USING_ENCODER;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.TRACK_WIDTH;
 import static org.firstinspires.ftc.teamcode.drive.DriveConstants.encoderTicksToInches;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kA;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kStatic;
-import static org.firstinspires.ftc.teamcode.drive.DriveConstants.kV;
 
 /*
  * Simple mecanum drive hardware implementation for REV hardware.
@@ -75,7 +74,7 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private DcMotor spin, vert1, vert2, hori;
 
-    private Servo grab1, grab2;
+    private Servo grab1, dunko;
 
     private BNO055IMU imu;
     private VoltageSensor batteryVoltageSensor;
@@ -132,7 +131,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         hori = hardwareMap.get(DcMotor.class, "h");
 
         grab1 = hardwareMap.get(Servo.class, "grab1");
-        grab2 = hardwareMap.get(Servo.class, "grab2");
+        dunko = hardwareMap.get(Servo.class, "dunk");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
 
@@ -183,7 +182,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     }
 
     public void turnAsync(double angle) {
-        trajectorySequenceRunner.followTrajectorySequenceAsync(
+        trajectorySequenceRunner.followTrajectoryAsync(
                 trajectorySequenceBuilder(getPoseEstimate())
                         .turn(angle)
                         .build()
@@ -324,7 +323,11 @@ public class SampleMecanumDrive extends MecanumDrive {
     public void setGrab(boolean deploy)
     {
         grab1.setPosition(deploy ? 0.0 : 0.75);
-        grab2.setPosition(deploy ? 0.0 : 0.75);
+    }
+
+    public void setDunko(boolean deploy)
+    {
+        dunko.setPosition(deploy ? 0.0 : 1.0);
     }
 
 
