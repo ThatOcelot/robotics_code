@@ -53,11 +53,11 @@ public class teleOP2022 extends LinearOpMode {
             else drive.setSpin(0);
 
             //Makes vertical slides go upwards when pressing y, and downwards when pressing a
-            if (gamepad2.y)
+            if (gamepad2.dpad_up)
             {
                 drive.setVert(1.0);
             }
-            else if (gamepad2.a)
+            else if (gamepad2.dpad_down)
             {
                 drive.setVert(-0.7);
             }
@@ -71,6 +71,14 @@ public class teleOP2022 extends LinearOpMode {
             else if (gamepad2.b)
             {
                 drive.setGrab(false);
+            }
+
+            if (gamepad2.y)
+            {
+                drive.setDunko(true);
+            } else if (gamepad2.a)
+            {
+                drive.setDunko(false);
             }
 
 
