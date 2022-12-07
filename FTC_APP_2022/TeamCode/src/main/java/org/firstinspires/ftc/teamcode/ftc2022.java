@@ -30,7 +30,6 @@ public class ftc2022 {
     public DcMotor baller =  null;
 
     //SERVOS:
-
     public Telemetry telemetry = null;
 
     HardwareMap hwMap = null;
