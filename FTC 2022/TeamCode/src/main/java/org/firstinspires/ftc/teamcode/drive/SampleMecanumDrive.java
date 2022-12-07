@@ -74,7 +74,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
-    private DcMotor spin, vert1, vert2, hori;
+    //private DcMotor spin, vert1, vert2, hori;
 
     private Servo grab1, dunko;
 
@@ -127,10 +127,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "leftRear");
         rightRear = hardwareMap.get(DcMotorEx.class, "rightRear");
         rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-        spin = hardwareMap.get(DcMotor.class, "spin");
-        vert1 = hardwareMap.get(DcMotor.class, "v1");
-        vert2 = hardwareMap.get(DcMotor.class, "v2");
-        hori = hardwareMap.get(DcMotor.class, "h");
+        //spin = hardwareMap.get(DcMotor.class, "spin");
+        //vert1 = hardwareMap.get(DcMotor.class, "v1");
+        //vert2 = hardwareMap.get(DcMotor.class, "v2");
+        //hori = hardwareMap.get(DcMotor.class, "h");
 
         grab1 = hardwareMap.get(Servo.class, "grab1");
         dunko = hardwareMap.get(Servo.class, "dunk");
@@ -308,29 +308,29 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     }
 
-    public void setSpin(double a){
-        spin.setPower(a);
-    }
+    //public void setSpin(double a){
+        //spin.setPower(a);
+    //}
 
-    public void setVert(double a){
-        vert1.setPower(a);
-        vert2.setPower(a);
-    }
+    //public void setVert(double a){
+       // vert1.setPower(a);
+        //vert2.setPower(a);
+    //}
 
-    public void setHori(double a){
-        hori.setPower(a);
-    }
+    //public void setHori(double a){
+       // hori.setPower(a);
+    //}
 
 
     public void setGrab(boolean x)
     {
-        grab1.setPosition(x ? 0.65 : 0.35);
+        grab1.setPosition(x ? 0.25 : 0.85);
 
     }
 
     public void setGrabZero()
     {
-        grab1.setPosition(0.5);
+        grab1.setPosition(0.4);
     }
 
 
@@ -344,8 +344,6 @@ public class SampleMecanumDrive extends MecanumDrive {
     {
         dunko.setPosition(0.5);
     }
-
-
 
 
 

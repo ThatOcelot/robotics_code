@@ -42,7 +42,7 @@ public class teleOP2022 extends LinearOpMode {
             
             //Makes the carousel spin clockwise when pressing dpad right, and spin counterclockwise
             //when pressing dpad left
-            if (gamepad2.dpad_right)
+           /* if (gamepad2.dpad_right)
             {
                 drive.setSpin(0.7);
             }
@@ -50,7 +50,7 @@ public class teleOP2022 extends LinearOpMode {
             {
                 drive.setSpin(-0.7);
             }
-            else drive.setSpin(0);
+            else drive.setSpin(0); */
 
             //Makes vertical slides go upwards when pressing y, and downwards when pressing a
             /*if (gamepad2.dpad_up)
@@ -74,7 +74,7 @@ public class teleOP2022 extends LinearOpMode {
             {
                 drive.setGrab(false);
             }
-            else drive.setGrabZero();
+            drive.update();
 
 
 
@@ -86,11 +86,6 @@ public class teleOP2022 extends LinearOpMode {
                 drive.setDunko(false);
             }
             else drive.setDunkoZero();
-
-
-
-
-
             drive.update();
 
             Pose2d poseEstimate = drive.getPoseEstimate();
