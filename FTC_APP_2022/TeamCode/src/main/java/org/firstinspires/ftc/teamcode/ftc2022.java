@@ -25,9 +25,6 @@ public class ftc2022 {
     public DcMotor frontRight = null;
     public DcMotor backRight = null;
     public DcMotor backLeft = null;
-    public DcMotor carousel = null;
-    public DcMotor regula1 = null;
-    public DcMotor baller =  null;
 
     //SERVOS:
     public Telemetry telemetry = null;
@@ -47,13 +44,10 @@ public class ftc2022 {
         driveHub = hwMap.get(LynxModule.class, "Expansion Hub 2");
 
         // Define and Initialize Motors
-        frontLeft = hwMap.get(DcMotor.class, "frontLeft");
-        frontRight = hwMap.get(DcMotor.class, "frontRight");
-        backRight = hwMap.get(DcMotor.class, "backRight");
-        backLeft = hwMap.get(DcMotor.class, "backLeft");
-        carousel = hwMap.get(DcMotor.class, "carousel");
-        regula1 = hwMap.get(DcMotor.class, "regula");
-        baller = hwMap.get(DcMotor.class, "ball");
+        frontLeft = hwMap.get(DcMotor.class, "lf");
+        frontRight = hwMap.get(DcMotor.class, "rf");
+        backRight = hwMap.get(DcMotor.class, "rr");
+        backLeft = hwMap.get(DcMotor.class, "lr");
         //armVertical = hwMap.get(DcMotor.class, "armVertical");
         //armHorizontal = hwMap.get(DcMotor.class, "armHorizontal");
         //counter = hwMap.get(DcMotor.class, "counter");
@@ -68,9 +62,6 @@ public class ftc2022 {
         backRight.setPower(0);
         frontLeft.setPower(0);
         frontRight.setPower(0);
-        carousel.setPower(0);
-        regula1.setPower(0);
-        baller.setPower(0);
         //armVertical.setPower(0);
         //armHorizontal.setPower(0);
         //counter.setPower(0);
@@ -237,16 +228,9 @@ public class ftc2022 {
         move(delta, -delta, delta, -delta, power, maxTime);
     }
 
-    public void setCarousel(double power) {
-        carousel.setPower(power);
-    }
 
-    public void setRegula1(double power) {
-        regula1.setPower(power);
-    }
 
-    public void setBaller(double power) {
-        baller.setPower(power);
+
     }
 }
 
