@@ -1,8 +1,0 @@
-org/firstinspires/ftc/teamcode/ftc2022.java
- org.firstinspires.ftc.teamcode.ftc2022
-org/firstinspires/ftc/teamcode/teleOpJAMAL.java
- org.firstinspires.ftc.teamcode.teleOpJAMAL
-org/firstinspires/ftc/teamcode/BuildConfig.java
- org.firstinspires.ftc.teamcode.BuildConfig
-org/firstinspires/ftc/teamcode/autoSHAMS.java
- org.firstinspires.ftc.teamcode.autoSHAMS
