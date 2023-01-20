@@ -76,6 +76,8 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     private DcMotor Enrique;
 
+    private Servo djkhalid;
+
 
 
     private BNO055IMU imu;
@@ -128,6 +130,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         rightRear = hardwareMap.get(DcMotorEx.class, "RR");
         rightFront = hardwareMap.get(DcMotorEx.class, "RF");
         Enrique = hardwareMap.get(DcMotorEx.class, "EN");
+        djkhalid = hardwareMap.get(Servo.class, "DJ");
 
 
 
@@ -153,6 +156,9 @@ public class SampleMecanumDrive extends MecanumDrive {
 
         // TODO: reverse any motors using DcMotor.setDirection()
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
+        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
         // TODO: if desired, use setLocalizer() to change the localization method
@@ -309,6 +315,16 @@ public class SampleMecanumDrive extends MecanumDrive {
     public void setEnrique(double x)
     {
         Enrique.setPower(x);
+    }
+
+    public void setDjkhalid(boolean deploy)
+    {
+        djkhalid.setPosition(deploy ? 0.3 : 0.7);
+    }
+
+    public void setDjkhalidZero()
+    {
+        djkhalid.setPosition(0.5);
     }
 
 

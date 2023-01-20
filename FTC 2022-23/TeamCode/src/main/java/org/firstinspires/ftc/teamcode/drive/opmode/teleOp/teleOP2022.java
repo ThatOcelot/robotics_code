@@ -46,6 +46,14 @@ public class teleOP2022 extends LinearOpMode {
             else drive.setEnrique(0);
 
 
+            if (gamepad2.x)
+            {
+                drive.setDjkhalid(true);
+            } else if (gamepad2.b)
+            {
+                drive.setDjkhalid(false);
+            }
+            else drive.setDjkhalidZero();
 
 
 

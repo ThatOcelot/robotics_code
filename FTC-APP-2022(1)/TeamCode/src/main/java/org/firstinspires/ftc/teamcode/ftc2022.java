@@ -3,18 +3,28 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.hardware.lynx.LynxModule;
 import com.qualcomm.hardware.lynx.commands.core.LynxGetBulkInputDataCommand;
 import com.qualcomm.hardware.lynx.commands.core.LynxGetBulkInputDataResponse;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.RobotLog;
 
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.internal.android.dex.Code;
 
 import java.util.Arrays;
 import java.util.Collections;
 
 public class ftc2022 {
+
+    private double StrafeSpeed = 50;
+    private int TurnSpeed = 50;
+
 
     private boolean runPosition = false;
 
@@ -26,6 +36,7 @@ public class ftc2022 {
     public DcMotor rightRear = null;
     public DcMotor leftRear = null;
     public DcMotor enrique = null;
+    public CRServo djkhalid = null;
 
 
     //SERVOS:
@@ -66,6 +77,8 @@ public class ftc2022 {
         rightRear = hwMap.get(DcMotor.class, "RR");
         leftRear = hwMap.get(DcMotor.class, "LR");
         enrique = hwMap.get(DcMotor.class, "EN");
+        djkhalid = hwMap.get(CRServo.class, "DJ");
+
 
 
         //armVertical = hwMap.get(DcMotor.class, "armVertical");
@@ -94,7 +107,7 @@ public class ftc2022 {
 
         leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
@@ -182,6 +195,81 @@ public class ftc2022 {
         rightRear.setPower(0);
     }
 
+
+
+
+
+
+    //Time based method for strafing forward, NO ENCODERS
+
+    public void strafeforward(double distance)
+    {
+        int time = (int)(distance/ StrafeSpeed*1000);
+
+        leftFront.setPower(StrafeSpeed);
+        leftRear.setPower(StrafeSpeed);
+        rightFront.setPower(StrafeSpeed);
+        rightRear.setPower(StrafeSpeed);
+
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
+    }
+
+    public void turnRight(double degrees)
+    {
+        leftFront.setPower(TurnSpeed);
+        leftRear.setPower(TurnSpeed);
+        rightFront.setPower(TurnSpeed);
+        rightRear.setPower(TurnSpeed);
+
+        int time = (int)(degrees/TurnSpeed * 1000);
+
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // stop the motors
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
+
+    }
+
+    public void turnLeft(double degrees)
+    {
+        leftFront.setPower(-TurnSpeed);
+        leftRear.setPower(-TurnSpeed);
+        rightFront.setPower(-TurnSpeed);
+        rightRear.setPower(-TurnSpeed);
+
+        int time = (int)(degrees/TurnSpeed * 1000);
+
+        try {
+            Thread.sleep(time);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        // stop the motors
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
+    }
+
+
+
+
     public void turn(double degrees) {
         // Reset encoder counts
         resetEncoders();
@@ -216,6 +304,15 @@ public class ftc2022 {
 
     public void setEnrique(double power)
     { enrique.setPower(power);}
+
+    public void setDjkhalid(double x)
+    {
+        djkhalid.setPower(x);
+    }
+
+
+
+
 
 
 }
