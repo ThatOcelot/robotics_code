@@ -60,25 +60,27 @@ public class autoSHAMS extends LinearOpMode {
 
             if (sleeveDetection.getPosition()== SleeveDetection.ParkingPosition.LEFT)
             {
-                robot.strafeforward(10);
-                robot.turnLeft(90);
-                robot.strafeforward(10);
-                robot.turnRight(90);
+                robot.strafeForward(10);
+                robot.turnwithGyro(-90);
+                robot.strafeForward(10);
+                robot.turnwithGyro(90);
+                robot.strafeForward(10);
 
             }
 
             if (sleeveDetection.getPosition()==SleeveDetection.ParkingPosition.CENTER)
             {
-                robot.strafeforward(10);
+                robot.strafeForward(20);
 
             }
 
             if (sleeveDetection.getPosition()== SleeveDetection.ParkingPosition.RIGHT)
             {
-                robot.strafeforward(10);
-                robot.turnRight(90);
-                robot.strafeforward(10);
-                robot.turnLeft(90);
+                robot.strafeForward(10);
+                robot.turnwithGyro(90);
+                robot.strafeForward(10);
+                robot.turnwithGyro(-90);
+                robot.strafeForward(10);
 
             }
 

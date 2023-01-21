@@ -8,6 +8,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.Gyroscope;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -22,8 +24,10 @@ import java.util.Collections;
 
 public class ftc2022 {
 
-    private double StrafeSpeed = 50;
-    private int TurnSpeed = 50;
+    private double StrafeSpeed = 0.5;
+
+    private int startingHeading;
+
 
 
     private boolean runPosition = false;
@@ -37,6 +41,7 @@ public class ftc2022 {
     public DcMotor leftRear = null;
     public DcMotor enrique = null;
     public CRServo djkhalid = null;
+    public GyroSensor roblox = null;
 
 
     //SERVOS:
@@ -78,6 +83,7 @@ public class ftc2022 {
         leftRear = hwMap.get(DcMotor.class, "LR");
         enrique = hwMap.get(DcMotor.class, "EN");
         djkhalid = hwMap.get(CRServo.class, "DJ");
+        roblox = hwMap.get(GyroSensor.class, "GY");
 
 
 
@@ -201,21 +207,40 @@ public class ftc2022 {
 
 
     //Time based method for strafing forward, NO ENCODERS
+    public void strafeForward(double inches) {
+        double power = 0.3;
+        double time = inches / power;
+        double startTime = System.currentTimeMillis();
+        double endTime = startTime + time;
+        leftFront.setPower(power);
+        leftRear.setPower(-power);
+        rightFront.setPower(-power);
+        rightRear.setPower(power);
+        while (System.currentTimeMillis() < endTime) {
+            // update the motors here
+        }
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
+    }
 
-    public void strafeforward(double distance)
-    {
-        int time = (int)(distance/ StrafeSpeed*1000);
 
-        leftFront.setPower(StrafeSpeed);
-        leftRear.setPower(StrafeSpeed);
-        rightFront.setPower(StrafeSpeed);
-        rightRear.setPower(StrafeSpeed);
 
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e)
-        {
-            e.printStackTrace();
+    void turnwithGyro(double targetAngle) {
+        double currentAngle = roblox.getHeading();
+        double error = targetAngle - currentAngle;
+        double kp = 0.03;
+
+        while(Math.abs(error) > 2) {
+            currentAngle = roblox.getHeading();
+            error = targetAngle - currentAngle;
+            double power = error * kp;
+
+            leftFront.setPower(-power);
+            leftRear.setPower(-power);
+            rightFront.setPower(power);
+            rightRear.setPower(power);
         }
 
         leftFront.setPower(0);
@@ -224,48 +249,36 @@ public class ftc2022 {
         rightRear.setPower(0);
     }
 
-    public void turnRight(double degrees)
-    {
-        leftFront.setPower(TurnSpeed);
-        leftRear.setPower(TurnSpeed);
-        rightFront.setPower(TurnSpeed);
-        rightRear.setPower(TurnSpeed);
-
-        int time = (int)(degrees/TurnSpeed * 1000);
-
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    public void turnwithGyroPID(double targetAngle) {
+        roblox.calibrate();
+        double currentAngle = roblox.getHeading();
+        double error = targetAngle - currentAngle;
+        double kp = 0.03;
+        double ki = 0.01;
+        double kd = 0.02;
+        double integral = 0;
+        double derivative = 0;
+        double previousError = 0;
+        double dt = 0.001;
+        while(Math.abs(error) > 2) {
+            currentAngle = roblox.getHeading();
+            error = targetAngle - currentAngle;
+            integral += error * dt;
+            derivative = (error - previousError) / dt;
+            double power = kp * error + ki * integral + kd * derivative;
+            previousError = error;
+            leftFront.setPower(-power);
+            leftRear.setPower(-power);
+            rightFront.setPower(power);
+            rightRear.setPower(power);
         }
-        // stop the motors
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
 
-    }
-
-    public void turnLeft(double degrees)
-    {
-        leftFront.setPower(-TurnSpeed);
-        leftRear.setPower(-TurnSpeed);
-        rightFront.setPower(-TurnSpeed);
-        rightRear.setPower(-TurnSpeed);
-
-        int time = (int)(degrees/TurnSpeed * 1000);
-
-        try {
-            Thread.sleep(time);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        // stop the motors
         leftFront.setPower(0);
         leftRear.setPower(0);
         rightFront.setPower(0);
         rightRear.setPower(0);
     }
+
 
 
 
@@ -305,9 +318,9 @@ public class ftc2022 {
     public void setEnrique(double power)
     { enrique.setPower(power);}
 
-    public void setDjkhalid(double x)
+    public void setDjkhalid(double power)
     {
-        djkhalid.setPower(x);
+        djkhalid.setPower(power);
     }
 
 
