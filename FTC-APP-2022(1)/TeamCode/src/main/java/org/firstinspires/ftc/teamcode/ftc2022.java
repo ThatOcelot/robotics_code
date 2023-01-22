@@ -1,20 +1,23 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.lynx.LynxModule;
-import com.qualcomm.hardware.lynx.commands.core.LynxGetBulkInputDataCommand;
-import com.qualcomm.hardware.lynx.commands.core.LynxGetBulkInputDataResponse;
+import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.I2cDevice;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.RobotLog;
+
+
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-import java.util.Arrays;
-import java.util.Collections;
 
 public class ftc2022 {
+
 
     private boolean runPosition = false;
 
@@ -29,6 +32,18 @@ public class ftc2022 {
 
 
     //SERVOS:
+
+    //Normal Servo classes essentially rotate the servo until it reaches a specific position you put it
+    //between 0 to 1, with 0.5 being the neutral position
+
+
+    public Servo djkhalid = null;
+
+    //SENSORS:
+
+    //This is the REV integrated gyro sensor, this GyroSensor class could be used for any gyro sensor, but this specific case is for the integrated REV one
+
+
     public Telemetry telemetry = null;
 
     HardwareMap hwMap = null;
@@ -41,6 +56,7 @@ public class ftc2022 {
 
 
     // Declare conversion constants
+    // This is for Encoder driving
     private static final double INCHES_TO_TICKS = TICKS_PER_REVOLUTION / (WHEEL_DIAMETER * Math.PI) / GEAR_RATIO;
     private static final double DEGREES_TO_TICKS = INCHES_TO_TICKS / (WHEEL_DIAMETER * Math.PI / 180);
 
@@ -66,16 +82,13 @@ public class ftc2022 {
         rightRear = hwMap.get(DcMotor.class, "RR");
         leftRear = hwMap.get(DcMotor.class, "LR");
         enrique = hwMap.get(DcMotor.class, "EN");
+        djkhalid = hwMap.get(Servo.class, "DJ");
 
 
-        //armVertical = hwMap.get(DcMotor.class, "armVertical");
-        //armHorizontal = hwMap.get(DcMotor.class, "armHorizontal");
-        //counter = hwMap.get(DcMotor.class, "counter");
 
 
-        //Define servos
-        //grabber1 = hwMap.get(Servo.class, "grab1");
-        //grabber2 = hwMap.get(Servo.class, "grab2");
+
+
 
         // Set all motors to zero power
         leftRear.setPower(0);
@@ -84,32 +97,16 @@ public class ftc2022 {
         rightFront.setPower(0);
         enrique.setPower(0);
 
-
-        //armVertical.setPower(0);
-        //armHorizontal.setPower(0);
-        //counter.setPower(0);
-        //arm1.setPower(0);
-        //arm2.setPower(0);
-
-
+        //Sets direction of motors, this'll be different for each season and the way the mnotor is mounted
+        //Make sure to use the MotorDirectionFinder class to find the directions of motors
         leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
         rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
 
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        //runToPosition(false);
-
-        // Define and initialize ALL installed servos.
-        //intakeMechanismLeft = hwMap.get(Servo.class, "intakeMechanismLeft");
-        //intakeMechanismRight = hwMap.get(Servo.class, "intakeMechanismRight");
 
 
-//        setCapArm(1);
-
-        //setIntakeMechanism(false);
     }
 
     public void resetEncoders() {
@@ -119,7 +116,7 @@ public class ftc2022 {
         rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-
+    //This is for normal driving with teleop, to move all motors at once
     public void setDrivePower(double fl, double bl, double fr, double br) {
         if (runPosition) {
             rightRear.setPower(br);
@@ -182,6 +179,89 @@ public class ftc2022 {
         rightRear.setPower(0);
     }
 
+
+
+
+
+
+    //Time based method for strafing forward, NO ENCODERS
+    public void strafeForward(double inches) {
+        double power = 0.3;
+        double time = inches / power;
+        double startTime = System.currentTimeMillis();
+        double endTime = startTime + time;
+        leftFront.setPower(power);
+        leftRear.setPower(-power);
+        rightFront.setPower(-power);
+        rightRear.setPower(power);
+        while (System.currentTimeMillis() < endTime) {
+            // update the motors here
+        }
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
+    }
+
+
+/*
+    void turnwithGyro(double targetAngle) {
+        roblox.calibrate();
+        double currentAngle = roblox.getHeading();
+        double error = targetAngle - currentAngle;
+        double kp = 0.03;
+
+        while(Math.abs(error) > 2) {
+            currentAngle = roblox.getHeading();
+            error = targetAngle - currentAngle;
+            double power = error * kp;
+
+            leftFront.setPower(-power);
+            leftRear.setPower(-power);
+            rightFront.setPower(power);
+            rightRear.setPower(power);
+        }
+
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
+    }
+/*
+    public void turnwithGyroPID(double targetAngle) {
+        roblox.calibrate();
+        double currentAngle = roblox.getHeading();
+        double error = targetAngle - currentAngle;
+        double kp = 0.03;
+        double ki = 0.01;
+        double kd = 0.02;
+        double integral = 0;
+        double derivative = 0;
+        double previousError = 0;
+        double dt = 0.001;
+        while(Math.abs(error) > 2) {
+            currentAngle = roblox.getHeading();
+            error = targetAngle - currentAngle;
+            integral += error * dt;
+            derivative = (error - previousError) / dt;
+            double power = kp * error + ki * integral + kd * derivative;
+            previousError = error;
+            leftFront.setPower(-power);
+            leftRear.setPower(-power);
+            rightFront.setPower(power);
+            rightRear.setPower(power);
+        }
+
+        leftFront.setPower(0);
+        leftRear.setPower(0);
+        rightFront.setPower(0);
+        rightRear.setPower(0);
+    }
+*/
+
+
+
+
     public void turn(double degrees) {
         // Reset encoder counts
         resetEncoders();
@@ -216,6 +296,19 @@ public class ftc2022 {
 
     public void setEnrique(double power)
     { enrique.setPower(power);}
+
+    public void setDjkhalid(boolean deploy)
+    {
+        djkhalid.setPosition(deploy ? 0.9:0.0);
+
+    }
+
+
+
+
+
+
+
 
 
 }
