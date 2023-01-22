@@ -41,6 +41,7 @@ public class autoSHAMS extends LinearOpMode {
             public void onOpened()
             {
                 camera.startStreaming(320,240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+
             }
 
             @Override
@@ -49,7 +50,10 @@ public class autoSHAMS extends LinearOpMode {
 
         robot.init(hardwareMap, telemetry);
 
+
+
         telemetry.addData("Status","Ready to run");
+        telemetry.addData("Position", sleeveDetection.getPosition());
         telemetry.update();
 
         runtime.reset();
@@ -61,9 +65,9 @@ public class autoSHAMS extends LinearOpMode {
             if (sleeveDetection.getPosition()== SleeveDetection.ParkingPosition.LEFT)
             {
                 robot.strafeForward(10);
-                robot.turnwithGyro(-90);
+                robot.turn(-90);
                 robot.strafeForward(10);
-                robot.turnwithGyro(90);
+                robot.turn(90);
                 robot.strafeForward(10);
 
             }
@@ -77,9 +81,9 @@ public class autoSHAMS extends LinearOpMode {
             if (sleeveDetection.getPosition()== SleeveDetection.ParkingPosition.RIGHT)
             {
                 robot.strafeForward(10);
-                robot.turnwithGyro(90);
+                robot.turn(90);
                 robot.strafeForward(10);
-                robot.turnwithGyro(-90);
+                robot.turn(-90);
                 robot.strafeForward(10);
 
             }

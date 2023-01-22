@@ -80,13 +80,13 @@ public class teleOpJAMAL extends LinearOpMode {
 
         if(gamepad2.x)
         {
-            robot.setDjkhalid(0.7);
+            robot.setDjkhalid(true);
         }
         else if (gamepad2.b)
         {
-            robot.setDjkhalid(-0.5);
+            robot.setDjkhalid(false);
         }
-        else robot.setDjkhalid(0);
+
 
 
     }
