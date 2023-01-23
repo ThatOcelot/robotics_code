@@ -295,7 +295,13 @@ public class ftc2022 {
     }
 
     public void setEnrique(double power)
-    { enrique.setPower(power);}
+    {
+        enrique.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        enrique.setPower(power);
+
+    }
 
     public void setDjkhalid(boolean deploy)
     {

@@ -67,27 +67,26 @@ public class teleOpJAMAL extends LinearOpMode {
         }
         robot.setDrivePower(fl, bl, fr, br);
 
-        if(gamepad2.a)
-        {
-            robot.setEnrique(-0.8);
+        if (gamepad2.a) {
+            if (robot.enrique.getCurrentPosition() != 1000) {
+                robot.setEnrique(0.8);
+                robot.enrique.setTargetPosition(robot.enrique.getCurrentPosition() + 200);
+            }
+        } else if (gamepad2.y) {
+            if (robot.enrique.getCurrentPosition() != 0) {
+                robot.setEnrique(0.8);
+                robot.enrique.setTargetPosition(robot.enrique.getCurrentPosition() - 200);
+            }
+            else robot.setEnrique(0);
 
-        }
-        else if (gamepad2.y)
-        {
-            robot.setEnrique(0.8);
-        }
-        else robot.setEnrique(0);
-
-        if(gamepad2.x)
-        {
-            robot.setDjkhalid(true);
-        }
-        else if (gamepad2.b)
-        {
-            robot.setDjkhalid(false);
-        }
+            if (gamepad2.x) {
+                robot.setDjkhalid(true);
+            } else if (gamepad2.b) {
+                robot.setDjkhalid(false);
+            }
 
 
+        }
 
     }
 
@@ -101,14 +100,11 @@ public class teleOpJAMAL extends LinearOpMode {
          */
 
 
-
-
         telemetry.addData("Status", "Initialized");
         //telemetry.addData("Vertical", robot.armHorizontal);
         telemetry.addData("Status", "Waiting for Start");
         telemetry.addData("Version", "1.8");
         telemetry.update();
-
 
 
         waitForStart();
@@ -118,8 +114,7 @@ public class teleOpJAMAL extends LinearOpMode {
             } else if (true) {
                 omniMode();
             }
-
-
         }
+
     }
 }
