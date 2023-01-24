@@ -68,11 +68,9 @@ public class teleOpJAMAL extends LinearOpMode {
         robot.setDrivePower(fl, bl, fr, br);
 
         if (gamepad2.a) {
-            if (robot.enrique.getCurrentPosition() != 1000) {
-                robot.setEnrique(0.8);
-                robot.enrique.setTargetPosition(robot.enrique.getCurrentPosition() + 200);
+            robot.setEnriqueHigh();
             }
-        } else if (gamepad2.y) {
+        /*} else if (gamepad2.y) {
             if (robot.enrique.getCurrentPosition() != 0) {
                 robot.setEnrique(0.8);
                 robot.enrique.setTargetPosition(robot.enrique.getCurrentPosition() - 200);
@@ -86,7 +84,7 @@ public class teleOpJAMAL extends LinearOpMode {
             }
 
 
-        }
+        }*/
 
     }
 

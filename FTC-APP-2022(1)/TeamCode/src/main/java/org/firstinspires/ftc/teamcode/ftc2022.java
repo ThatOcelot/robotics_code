@@ -294,14 +294,29 @@ public class ftc2022 {
         rightRear.setPower(0);
     }
 
-    public void setEnrique(double power)
+    public void setEnriqueHigh()
     {
-        enrique.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        enrique.setPower(power);
+        if (enrique.getCurrentPosition() < 1000) {
+            enrique.setPower(0.8);
+            enrique.setTargetPosition(enrique.getCurrentPosition() + 200);
+            enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
 
     }
+
+    /*public void setEnrique(double power)
+    {
+
+        enrique.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        if (enrique.getCurrentPosition() != 1000) {
+            setEnrique(0.8);
+            enrique.setTargetPosition(enrique.getCurrentPosition() + 200);
+        }
+        enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        enrique.setPower(power);*/
+
+
 
     public void setDjkhalid(boolean deploy)
     {
