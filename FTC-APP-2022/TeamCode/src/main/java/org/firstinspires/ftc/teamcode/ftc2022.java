@@ -283,7 +283,6 @@ public class ftc2022 {
             enrique.setPower(0.8);
             enrique.setTargetPosition(3700);
             enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
     }
     public void setEnriqueMedium()
@@ -292,7 +291,6 @@ public class ftc2022 {
                 enrique.setPower(0.8);
                 enrique.setTargetPosition(2600);
                 enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             }
         }
     public void setEnriqueShort() {
@@ -300,7 +298,6 @@ public class ftc2022 {
             enrique.setPower(0.8);
             enrique.setTargetPosition(1400);
             enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
     }
     public void setEnriqueJunction()
@@ -309,8 +306,7 @@ public class ftc2022 {
         enrique.setPower(0.8);
         enrique.setTargetPosition(140);
         enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            }
+    }
     }
 
     /*public void setEnrique(double power)
@@ -326,11 +322,16 @@ public class ftc2022 {
 
 
 
-    public void setDjkhalid(boolean deploy)
+    public void setDjkhalidOpen()
     {
-        djkhalid.setPosition(deploy ? 0.9:0.0);
-
+        djkhalid.setPosition(0.0);
     }
+
+    public void setDjkhalidClose()
+    {
+        djkhalid.setPosition(1.0);
+    }
+
 
 
 
