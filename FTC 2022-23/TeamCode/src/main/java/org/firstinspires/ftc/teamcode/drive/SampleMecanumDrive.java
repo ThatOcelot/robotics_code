@@ -74,7 +74,7 @@ public class SampleMecanumDrive extends MecanumDrive {
     private DcMotorEx leftFront, leftRear, rightRear, rightFront;
     private List<DcMotorEx> motors;
 
-    private DcMotor Enrique;
+    private DcMotor enrique;
 
     private Servo djkhalid;
 
@@ -129,7 +129,7 @@ public class SampleMecanumDrive extends MecanumDrive {
         leftRear = hardwareMap.get(DcMotorEx.class, "LR");
         rightRear = hardwareMap.get(DcMotorEx.class, "RR");
         rightFront = hardwareMap.get(DcMotorEx.class, "RF");
-        Enrique = hardwareMap.get(DcMotorEx.class, "EN");
+        enrique = hardwareMap.get(DcMotorEx.class, "EN");
         djkhalid = hardwareMap.get(Servo.class, "DJ");
 
 
@@ -312,19 +312,19 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     }
 
-    public void setEnrique(double x)
+    public void setEnrique(double power)
     {
-        Enrique.setPower(x);
+        enrique.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        enrique.setPower(power);
+
     }
 
     public void setDjkhalid(boolean deploy)
     {
-        djkhalid.setPosition(deploy ? 0.3 : 0.7);
-    }
+        djkhalid.setPosition(deploy ? 0.9:0.0);
 
-    public void setDjkhalidZero()
-    {
-        djkhalid.setPosition(0.5);
     }
 
 

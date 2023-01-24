@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.drive.opmode.Auto;
+package org.firstinspires.ftc.teamcode;
 
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
@@ -111,13 +111,13 @@ public class SleeveDetection extends OpenCvPipeline {
                     2
             );
         }
-        // Release the mats
-        hsv.release();
-        binary.release();
-        areaMat.release();
+            // Release the mats
+            hsv.release();
+            binary.release();
+            areaMat.release();
 
-        // Return the input image
-        return input;
+            // Return the input image
+            return input;
 
     }
 
