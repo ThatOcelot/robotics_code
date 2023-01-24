@@ -294,15 +294,40 @@ public class ftc2022 {
         rightRear.setPower(0);
     }
 
-    public void setEnriqueHigh()
-    {
-        if (enrique.getCurrentPosition() < 1000) {
+    public void setEnriqueHigh() {
+
+        if (enrique.getCurrentPosition() != 3700) {
             enrique.setPower(0.8);
-            enrique.setTargetPosition(enrique.getCurrentPosition() + 200);
+            enrique.setTargetPosition(3700);
             enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
-
+    }
+    public void setEnriqueMedium()
+        {
+            if (enrique.getCurrentPosition() != 2600) {
+                enrique.setPower(0.8);
+                enrique.setTargetPosition(2600);
+                enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+        }
+    public void setEnriqueShort() {
+        if (enrique.getCurrentPosition() != 1400) {
+            enrique.setPower(0.8);
+            enrique.setTargetPosition(1400);
+            enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
+    }
+    public void setEnriqueJunction()
+    {
+    if (enrique.getCurrentPosition() != 140) {
+        enrique.setPower(0.8);
+        enrique.setTargetPosition(140);
+        enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
     }
 
     /*public void setEnrique(double power)

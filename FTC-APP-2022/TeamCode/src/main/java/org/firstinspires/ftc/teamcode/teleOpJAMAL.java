@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 
 @TeleOp(name="RobotTest 2.0", group="Test")
@@ -67,9 +68,31 @@ public class teleOpJAMAL extends LinearOpMode {
         }
         robot.setDrivePower(fl, bl, fr, br);
 
-        if (gamepad2.a) {
+
+        if (gamepad2.dpad_up) {
             robot.setEnriqueHigh();
             }
+
+        if (gamepad2.dpad_right)
+        {
+            robot.setEnriqueMedium();
+        }
+
+        if (gamepad2.dpad_down)
+        {
+            robot.setEnriqueShort();
+        }
+
+        if (gamepad2.dpad_left)
+        {
+            robot.setEnriqueJunction();
+        }
+
+        if (gamepad2.b)
+        {
+            telemetry.addData("Height", robot.enrique.getCurrentPosition());
+            telemetry.update();
+        }
         /*} else if (gamepad2.y) {
             if (robot.enrique.getCurrentPosition() != 0) {
                 robot.setEnrique(0.8);
