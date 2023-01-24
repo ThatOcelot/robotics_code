@@ -184,24 +184,7 @@ public class ftc2022 {
 
 
 
-    //Time based method for strafing forward, NO ENCODERS
-    public void strafeForward(double inches) {
-        double power = 0.3;
-        double time = inches / power;
-        double startTime = System.currentTimeMillis();
-        double endTime = startTime + time;
-        leftFront.setPower(power);
-        leftRear.setPower(-power);
-        rightFront.setPower(-power);
-        rightRear.setPower(power);
-        while (System.currentTimeMillis() < endTime) {
-            // update the motors here
-        }
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-    }
+
 
 
 /*

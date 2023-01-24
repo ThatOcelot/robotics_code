@@ -184,23 +184,23 @@ public class autoParkRed extends LinearOpMode
         }else{
             switch(tagOfInterest.id){
                 case 1:
-                    robot.strafeForward(10);
+                    robot.strafe(10,0,0.5,3);
                     robot.turn(-90);
-                    robot.strafeForward(10);
+                    robot.strafe(10,0,0.5,3);
                     robot.turn(90);
-                    robot.strafeForward(10);
+                    robot.strafe(10,0,0.5,3);
 
                     break;
                 case 2:
-                    robot.strafeForward(20);
+                    robot.strafe(20,0,0.5,3);
 
                     break;
                 case 3:
-                    robot.strafeForward(10);
+                    robot.strafe(10,0,0.5,3);
                     robot.turn(90);
-                    robot.strafeForward(10);
+                    robot.strafe(10,0,0.5,3);
                     robot.turn(-90);
-                    robot.strafeForward(10);
+                    robot.strafe(10,0,0.5,3);
                     break;
             }
         }
