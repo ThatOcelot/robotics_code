@@ -95,6 +95,8 @@ public class autoParkBlue extends LinearOpMode
 
 
         //HARDWARE MAPPING HERE etc.
+        robot.init(hardwareMap, telemetry);
+
 
 
         /*

@@ -95,6 +95,7 @@ public class autoParkRed extends LinearOpMode
 
 
         //HARDWARE MAPPING HERE etc.
+        robot.init(hardwareMap, telemetry);
 
 
         /*
@@ -186,9 +187,9 @@ public class autoParkRed extends LinearOpMode
             switch(tagOfInterest.id){
                 case 1:
                     robot.strafe(1,10,0.5);
-                   // robot.turn(-90);
+                    robot.turn(-90);
                     robot.strafe(1,10,0.5);
-                    //robot.turn(90);
+                    robot.turn(90);
                     robot.strafe(1,10,0.5);
 
                     break;
@@ -198,9 +199,9 @@ public class autoParkRed extends LinearOpMode
                     break;
                 case 3:
                     robot.strafe(1,10,0.5);
-                   // robot.turn(90);
+                    robot.turn(90);
                     robot.strafe(1,10,0.5);
-                   // robot.turn(-90);
+                    robot.turn(-90);
                     robot.strafe(1,10,0.5);
                     break;
             }
