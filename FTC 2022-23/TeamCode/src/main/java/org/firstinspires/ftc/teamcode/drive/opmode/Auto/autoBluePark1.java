@@ -1,43 +1,23 @@
-/*
- * Copyright (c) 2021 OpenFTC Team
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+package org.firstinspires.ftc.teamcode.drive.opmode.Auto;
 
-package org.firstinspires.ftc.teamcode;
-
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
+import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
-import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
-@Autonomous
-public class autoParkRed extends LinearOpMode
-{
-    //INTRODUCE VARIABLES HERE
-    ftc2022 robot = new ftc2022();
+@Autonomous(name = "autoBluePark1")
+public class autoBluePark1 extends LinearOpMode {
 
 
     OpenCvCamera camera;
@@ -176,7 +156,73 @@ public class autoParkRed extends LinearOpMode
             telemetry.update();
         }
 
+
+        SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
+
+        Pose2d startPose = new Pose2d(-35, 57.5,Math.toRadians(90));
+        ElapsedTime timer = new ElapsedTime();
+        drive.setPoseEstimate(startPose);
+
+        Trajectory P1 = drive.trajectoryBuilder(new Pose2d(-62,12),Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(-61, 22.3))
+                .build();
+
+        Trajectory P2 = drive.trajectoryBuilder(new Pose2d(-62,12),Math.toRadians(90))
+                .strafeTo(new Vector2d(-34.8,12))
+                .strafeTo(new Vector2d(-34.8,23))
+
+                .build();
+
+        Trajectory P3 = drive.trajectoryBuilder(new Pose2d(-62,12),Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(-11.5,22.3))
+                .strafeTo(new Vector2d(-11.5,23))
+
+                .build();
+
+        Trajectory Score = drive.trajectoryBuilder(startPose)
+                .forward(46)
+                .strafeRight(12)
+                .addTemporalMarker(2, () -> {
+                    drive.setEnriqueHigh();
+
+                })
+                .strafeTo(new Vector2d(-23,4.4))
+                .strafeTo(new Vector2d(-23,12))
+                .strafeTo(new Vector2d(-57,12))
+                .addTemporalMarker(3, () -> {
+                    drive.setDjkhalidOpen();
+                })
+                .addTemporalMarker(4, () -> {
+                    drive.setDjkhalidClose();
+                })
+                .lineToSplineHeading(new Pose2d(-62,12,Math.toRadians(180)))
+                .addTemporalMarker(5, () -> {
+                    drive.setEnriqueJunction();
+                })
+                .build();
+
+
+
+
+
+
+
+
+        if(tagOfInterest != null)
+        {
+            telemetry.addLine("Tag snapshot:\n");
+            tagToTelemetry(tagOfInterest);
+            telemetry.update();
+        }
+        else
+        {
+            telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
+            telemetry.update();
+        }
+
         //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
+
+        drive.followTrajectory(Score);
 
 
         if(tagOfInterest == null){
@@ -185,23 +231,15 @@ public class autoParkRed extends LinearOpMode
         }else{
             switch(tagOfInterest.id){
                 case 1:
-                    robot.strafe(1,10,0.5);
-                   // robot.turn(-90);
-                    robot.strafe(1,10,0.5);
-                    //robot.turn(90);
-                    robot.strafe(1,10,0.5);
+                    drive.followTrajectory(P1);
 
                     break;
                 case 2:
-                    robot.strafe(1,10,0.5);
+                    drive.followTrajectory(P2);
 
                     break;
                 case 3:
-                    robot.strafe(1,10,0.5);
-                   // robot.turn(90);
-                    robot.strafe(1,10,0.5);
-                   // robot.turn(-90);
-                    robot.strafe(1,10,0.5);
+                    drive.followTrajectory(P3);
                     break;
             }
         }
@@ -221,3 +259,4 @@ public class autoParkRed extends LinearOpMode
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 }
+

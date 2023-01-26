@@ -31,6 +31,7 @@ public class autonomousTest extends LinearOpMode {
         robot.backLeft.setPower(FORWARD_SPEED);
         robot.frontRight.setPower(FORWARD_SPEED);
         robot.backRight.setPower(FORWARD_SPEED);
+
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds()<2.0)) {
             telemetry.addData("Path","Leg 1:%2.5f S Elapsed", runtime.seconds());
@@ -46,6 +47,7 @@ public class autonomousTest extends LinearOpMode {
         while (opModeIsActive() && (runtime.seconds()<1.0)){
             telemetry.addData("Path","Leg 2:%2.5f S Elapsed", runtime.seconds());
             telemetry.update();
+
 
 
         }

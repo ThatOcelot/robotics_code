@@ -50,7 +50,7 @@ public class ftc2022 {
     private ElapsedTime period = new ElapsedTime();
 
     // Declare encoder constants
-    private static final double TICKS_PER_REVOLUTION = 1120;
+    private static final double TICKS_PER_REVOLUTION = 537.7;
     private static final double WHEEL_DIAMETER = 4; // inches
     private static final double GEAR_RATIO = 1;
 
@@ -84,18 +84,8 @@ public class ftc2022 {
         enrique = hwMap.get(DcMotor.class, "EN");
         djkhalid = hwMap.get(Servo.class, "DJ");
 
+        // check if motors are not null
 
-
-
-
-
-
-        // Set all motors to zero power
-        leftRear.setPower(0);
-        rightRear.setPower(0);
-        leftFront.setPower(0);
-        rightFront.setPower(0);
-        enrique.setPower(0);
 
         //Sets direction of motors, this'll be different for each season and the way the mnotor is mounted
         //Make sure to use the MotorDirectionFinder class to find the directions of motors
@@ -110,11 +100,28 @@ public class ftc2022 {
     }
 
     public void resetEncoders() {
-        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        if (leftFront != null) {
+            leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        if (rightFront != null) {
+            rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        if (rightRear != null) {
+            rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        if (leftRear != null) {
+            leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+        if (enrique != null) {
+            enrique.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            enrique.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
     }
+
 
     //This is for normal driving with teleop, to move all motors at once
     public void setDrivePower(double fl, double bl, double fr, double br) {
@@ -131,121 +138,91 @@ public class ftc2022 {
             leftFront.setPower(fl);
             leftRear.setPower(bl);
         }
+
+        if (leftFront != null) {
+            leftFront.setPower(0);
+        }
+        if (rightFront != null) {
+            rightFront.setPower(0);
+        }
+        if (rightRear != null) {
+            rightRear.setPower(0);
+        }
+        if (leftRear != null) {
+            leftRear.setPower(0);
+        }
+        if (enrique != null) {
+            enrique.setPower(0);
+        }
     }
 
-    public void strafe(double xDistance, double yDistance, double speed, long timeout) {
-        // Reset encoders and timeout
-        resetEncoders();
-        this.timeout.reset();
+    public void strafe(double speed, double distance, double timeoutS) {
+        int newLeftFrontTarget;
+        int newRightFrontTarget;
+        int newLeftRearTarget;
+        int newRightRearTarget;
 
-        // Calculate target tick counts
-        int xTarget = (int) (xDistance * INCHES_TO_TICKS);
-        int yTarget = (int) (yDistance * INCHES_TO_TICKS);
+        // Determine new target position, and pass to motor controller
+        newLeftFrontTarget = leftFront.getCurrentPosition() + (int)(distance * INCHES_TO_TICKS);
+        newRightFrontTarget = rightFront.getCurrentPosition() - (int)(distance * INCHES_TO_TICKS);
+        newLeftRearTarget = leftRear.getCurrentPosition() - (int)(distance * INCHES_TO_TICKS);
+        newRightRearTarget = rightRear.getCurrentPosition() + (int)(distance * INCHES_TO_TICKS);
 
-        // Set target tick counts
-        leftFront.setTargetPosition(leftFront.getCurrentPosition() + xTarget + yTarget);
-        rightFront.setTargetPosition(rightFront.getCurrentPosition() - xTarget + yTarget);
-        leftRear.setTargetPosition(leftRear.getCurrentPosition() - xTarget + yTarget);
-        rightRear.setTargetPosition(rightRear.getCurrentPosition() + xTarget + yTarget);
+        leftFront.setTargetPosition(newLeftFrontTarget);
+        rightFront.setTargetPosition(newRightFrontTarget);
+        leftRear.setTargetPosition(newLeftRearTarget);
+        rightRear.setTargetPosition(newRightRearTarget);
 
-        // Enable PID and set speed
+        // Turn On RUN_TO_POSITION
         leftFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         leftRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        leftFront.setPower(speed);
-        rightFront.setPower(speed);
-        leftRear.setPower(speed);
-        rightRear.setPower(speed);
 
-        // Wait for motors to reach target position or timeout
+        // start motion.
+        leftFront.setPower(Math.abs(speed));
+        rightFront.setPower(Math.abs(speed));
+        leftRear.setPower(Math.abs(speed));
+        rightRear.setPower(Math.abs(speed));
 
+        // keep looping while we are still active, and there is time left, and both motors are running.
+        double startTime = System.currentTimeMillis();
+        while ((System.currentTimeMillis() - startTime) < timeoutS * 1000 &&
+                (leftFront.isBusy() && rightFront.isBusy()
+                        && leftRear.isBusy() && rightRear.isBusy())) {
 
-        // Update telemetry
-        telemetry.addData("X Target", xTarget);
-        telemetry.addData("Y Target", yTarget);
-        telemetry.addData("Front Left Position", leftFront.getCurrentPosition());
-        telemetry.addData("Front Right Position", rightFront.getCurrentPosition());
-        telemetry.addData("Back Left Position", leftRear.getCurrentPosition());
-        telemetry.addData("Back Right Position", rightRear.getCurrentPosition());
-        telemetry.update();
-
-
-        // Stop and reset motors
-
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
-    }
-
-
-
-
-
-
-
-
-
-/*
-    void turnwithGyro(double targetAngle) {
-        roblox.calibrate();
-        double currentAngle = roblox.getHeading();
-        double error = targetAngle - currentAngle;
-        double kp = 0.03;
-
-        while(Math.abs(error) > 2) {
-            currentAngle = roblox.getHeading();
-            error = targetAngle - currentAngle;
-            double power = error * kp;
-
-            leftFront.setPower(-power);
-            leftRear.setPower(-power);
-            rightFront.setPower(power);
-            rightRear.setPower(power);
+            // Display it for the driver.
+            telemetry.addData("Path1",  "Running to %7d :%7d", newLeftFrontTarget,  newRightFrontTarget, newLeftRearTarget, newRightRearTarget);
+            telemetry.addData("Path2",  "Running at %7d :%7d",
+                    leftFront.getCurrentPosition(),
+                    rightFront.getCurrentPosition(),
+                    leftRear.getCurrentPosition(),
+                    rightRear.getCurrentPosition());
+            telemetry.update();
         }
 
+        // Stop all motion;
         leftFront.setPower(0);
-        leftRear.setPower(0);
         rightFront.setPower(0);
-        rightRear.setPower(0);
-    }
-/*
-    public void turnwithGyroPID(double targetAngle) {
-        roblox.calibrate();
-        double currentAngle = roblox.getHeading();
-        double error = targetAngle - currentAngle;
-        double kp = 0.03;
-        double ki = 0.01;
-        double kd = 0.02;
-        double integral = 0;
-        double derivative = 0;
-        double previousError = 0;
-        double dt = 0.001;
-        while(Math.abs(error) > 2) {
-            currentAngle = roblox.getHeading();
-            error = targetAngle - currentAngle;
-            integral += error * dt;
-            derivative = (error - previousError) / dt;
-            double power = kp * error + ki * integral + kd * derivative;
-            previousError = error;
-            leftFront.setPower(-power);
-            leftRear.setPower(-power);
-            rightFront.setPower(power);
-            rightRear.setPower(power);
-        }
-
-        leftFront.setPower(0);
         leftRear.setPower(0);
-        rightFront.setPower(0);
         rightRear.setPower(0);
+
+        // Turn off RUN_TO_POSITION
+        leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
-*/
 
 
 
 
-    public void turn(double degrees) {
+
+
+
+
+
+        public void turn(double degrees) {
         // Reset encoder counts
         resetEncoders();
 
@@ -270,14 +247,17 @@ public class ftc2022 {
         rightFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rightRear.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        // Stop motors
-        leftFront.setPower(0);
-        leftRear.setPower(0);
-        rightFront.setPower(0);
-        rightRear.setPower(0);
+        leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
     }
 
-    public void setEnriqueHigh() {
+
+
+
+
+        public void setEnriqueHigh() {
 
         if (enrique.getCurrentPosition() != 3700) {
             enrique.setPower(0.8);
@@ -308,17 +288,6 @@ public class ftc2022 {
         enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
     }
     }
-
-    /*public void setEnrique(double power)
-    {
-
-        enrique.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        if (enrique.getCurrentPosition() != 1000) {
-            setEnrique(0.8);
-            enrique.setTargetPosition(enrique.getCurrentPosition() + 200);
-        }
-        enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        enrique.setPower(power);*/
 
 
 

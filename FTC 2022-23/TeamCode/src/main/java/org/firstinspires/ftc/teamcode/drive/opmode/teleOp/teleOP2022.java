@@ -50,7 +50,7 @@ public class teleOP2022 extends LinearOpMode {
             }*/
 
             // Control a motor named 'djkhalid' using the X and B buttons on gamepad2
-            if (gamepad2.x) {
+           /* if (gamepad2.x) {
                 drive.setDjkhalid(true);
             } else if (gamepad2.b) {
                 drive.setDjkhalid(false);
@@ -58,6 +58,8 @@ public class teleOP2022 extends LinearOpMode {
             else {
                 drive.setDjkhalid(false);
             }
+
+            */
 
             drive.update();
 

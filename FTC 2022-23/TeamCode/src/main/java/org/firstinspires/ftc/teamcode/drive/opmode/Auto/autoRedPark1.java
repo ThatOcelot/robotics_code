@@ -16,8 +16,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name = "Signal Sleeve Test")
-public class autoRedPark extends LinearOpMode {
+@Autonomous(name = "AutoRedPark1")
+public class autoRedPark1 extends LinearOpMode {
 
 
     OpenCvCamera camera;
@@ -159,23 +159,51 @@ public class autoRedPark extends LinearOpMode {
 
         SampleMecanumDrive drive = new SampleMecanumDrive(hardwareMap);
 
-        Pose2d startPose = new Pose2d(35, -5);
+        Pose2d startPose = new Pose2d(-35, -57.5,Math.toRadians(90));
         ElapsedTime timer = new ElapsedTime();
         drive.setPoseEstimate(startPose);
 
-        Trajectory P1 = drive.trajectoryBuilder(startPose)
-                .lineToConstantHeading(new Vector2d(12.4, -22.3))
+        Trajectory P1 = drive.trajectoryBuilder(new Pose2d(-62,-12),Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(-61, -22.3))
+
                 .build();
 
-        Trajectory P2 = drive.trajectoryBuilder(startPose)
-                .strafeTo(new Vector2d(10.6,-60.8))
-                .splineToConstantHeading(new Vector2d(34.8,-22.3),Math.toRadians(90))
+        Trajectory P2 = drive.trajectoryBuilder(new Pose2d(-62,-12),Math.toRadians(90))
+                .splineToConstantHeading(new Vector2d(-34.8,-17),Math.toRadians(90))
+                .strafeTo(new Vector2d(-34.8,-23))
                 .build();
 
-        Trajectory P3 = drive.trajectoryBuilder(startPose)
-                .strafeRight(30)
-                .lineToConstantHeading(new Vector2d(56.9, -22.3))
+        Trajectory P3 = drive.trajectoryBuilder(new Pose2d(-62,-12),Math.toRadians(90))
+                .lineToConstantHeading(new Vector2d(-11.5,-22.3))
+                .strafeTo(new Vector2d(-11.5,-23))
+
                 .build();
+
+        Trajectory Score = drive.trajectoryBuilder(startPose)
+                .forward(46)
+                .strafeRight(12)
+                .addTemporalMarker(2, () -> {
+                    drive.setEnriqueHigh();
+
+                })
+                .strafeTo(new Vector2d(-23,-4.4))
+                .strafeTo(new Vector2d(-23,-12))
+                .strafeTo(new Vector2d(-57,-12))
+                .addTemporalMarker(3, () -> {
+                    drive.setDjkhalidOpen();
+                })
+                .addTemporalMarker(4, () -> {
+                    drive.setDjkhalidClose();
+                })
+                .lineToSplineHeading(new Pose2d(-62,-12,Math.toRadians(180)))
+                .addTemporalMarker(5, () -> {
+                    drive.setEnriqueJunction();
+                })
+                .build();
+
+
+
+
 
 
 
@@ -194,8 +222,11 @@ public class autoRedPark extends LinearOpMode {
 
         //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
 
+        drive.followTrajectory(Score);
+
 
         if(tagOfInterest == null){
+
             //default path
         }else{
             switch(tagOfInterest.id){

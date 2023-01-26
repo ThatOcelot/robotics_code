@@ -34,7 +34,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 import java.util.ArrayList;
 
 @Autonomous
-public class autoParkRed extends LinearOpMode
+public class autoParkBlue extends LinearOpMode
 {
     //INTRODUCE VARIABLES HERE
     ftc2022 robot = new ftc2022();
@@ -177,31 +177,29 @@ public class autoParkRed extends LinearOpMode
         }
 
         //PUT AUTON CODE HERE (DRIVER PRESSED THE PLAY BUTTON!)
+        robot.turn(360);
 
 
         if(tagOfInterest == null){
-
             //default path
         }else{
             switch(tagOfInterest.id){
                 case 1:
-                    robot.strafe(1,10,0.5);
-                   // robot.turn(-90);
-                    robot.strafe(1,10,0.5);
-                    //robot.turn(90);
-                    robot.strafe(1,10,0.5);
-
+                    robot.strafe(10.0,0.0,0.5);
+                    robot.turn(90);
+                    robot.strafe(10.0,0,0.5);
+                    robot.turn(-90);
+                    robot.strafe(10.0,0,0.5);
                     break;
                 case 2:
-                    robot.strafe(1,10,0.5);
-
+                    robot.strafe(20.0,0,0.5);
                     break;
                 case 3:
-                    robot.strafe(1,10,0.5);
-                   // robot.turn(90);
-                    robot.strafe(1,10,0.5);
-                   // robot.turn(-90);
-                    robot.strafe(1,10,0.5);
+                    robot.strafe(10.0,0,0.5);
+                    robot.turn(-90);
+                    robot.strafe(10.0,0,0.5);
+                    robot.turn(90);
+                    robot.strafe(10.0,0.0,0.5);
                     break;
             }
         }

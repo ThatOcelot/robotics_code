@@ -32,6 +32,8 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceBuilder;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequenceRunner;
+import org.firstinspires.ftc.teamcode.util.AxisDirection;
+import org.firstinspires.ftc.teamcode.util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.util.LynxModuleUtil;
 
 import java.util.ArrayList;
@@ -125,6 +127,8 @@ public class SampleMecanumDrive extends MecanumDrive {
         // For example, if +Y in this diagram faces downwards, you would use AxisDirection.NEG_Y.
         // BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_Y);
 
+        BNO055IMUUtil.remapZAxis(imu, AxisDirection.NEG_Y);
+
         leftFront = hardwareMap.get(DcMotorEx.class, "LF");
         leftRear = hardwareMap.get(DcMotorEx.class, "LR");
         rightRear = hardwareMap.get(DcMotorEx.class, "RR");
@@ -155,11 +159,10 @@ public class SampleMecanumDrive extends MecanumDrive {
         }
 
         // TODO: reverse any motors using DcMotor.setDirection()
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        leftFront.setDirection(DcMotorSimple.Direction.FORWARD);
         rightRear.setDirection(DcMotorSimple.Direction.FORWARD);
-        rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFront.setDirection(DcMotorSimple.Direction.FORWARD);
         leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
-
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
@@ -312,20 +315,50 @@ public class SampleMecanumDrive extends MecanumDrive {
 
     }
 
-    public void setEnrique(double power)
-    {
-        enrique.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        enrique.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        enrique.setPower(power);
+    public void setEnriqueHigh() {
 
+        if (enrique.getCurrentPosition() != 3700) {
+            enrique.setPower(1.0);
+            enrique.setTargetPosition(3700);
+            enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
+    public void setEnriqueMedium()
+    {
+        if (enrique.getCurrentPosition() != 2600) {
+            enrique.setPower(1.0);
+            enrique.setTargetPosition(2600);
+            enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
+    public void setEnriqueShort() {
+        if (enrique.getCurrentPosition() != 1400) {
+            enrique.setPower(1.0);
+            enrique.setTargetPosition(1400);
+            enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
+    }
+    public void setEnriqueJunction()
+    {
+        if (enrique.getCurrentPosition() != 140) {
+            enrique.setPower(0.5);
+            enrique.setTargetPosition(140);
+            enrique.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        }
     }
 
-    public void setDjkhalid(boolean deploy)
-    {
-        djkhalid.setPosition(deploy ? 0.9:0.0);
 
+
+    public void setDjkhalidOpen()
+    {
+        djkhalid.setPosition(0.0);
     }
+
+    public void setDjkhalidClose()
+    {
+        djkhalid.setPosition(1.0);
+    }
+
 
 
 
