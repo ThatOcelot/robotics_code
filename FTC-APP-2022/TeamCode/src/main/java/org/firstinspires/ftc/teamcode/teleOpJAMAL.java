@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 
-@TeleOp(name="RobotTest 2.0", group="Test")
+@TeleOp(name="TeleOpJamal", group="Test")
 public class teleOpJAMAL extends LinearOpMode {
     ftc2022 robot = new ftc2022();    // Use a Pushbot's hardware
 
@@ -93,12 +93,24 @@ public class teleOpJAMAL extends LinearOpMode {
             telemetry.addData("Height", robot.enrique.getCurrentPosition());
             telemetry.update();
         }
-        /*} else if (gamepad2.y) {
-            if (robot.enrique.getCurrentPosition() != 0) {
-                robot.setEnrique(0.8);
-                robot.enrique.setTargetPosition(robot.enrique.getCurrentPosition() - 200);
-            }
-            else robot.setEnrique(0);
+
+        if (gamepad1.dpad_up)
+        {
+            telemetry.addData("Height", robot.leftFront.getCurrentPosition());
+            telemetry.addData("Height", robot.leftRear.getCurrentPosition());
+            telemetry.addData("Height", robot.rightRear.getCurrentPosition());
+            telemetry.addData("Height", robot.rightFront.getCurrentPosition());
+            telemetry.update();
+        }
+
+        if (gamepad1.dpad_down)
+        {
+            robot.leftFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.leftRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            robot.rightRear.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);        }
+
+        /*
 
             if (gamepad2.x) {
                 robot.setDjkhalid(true);

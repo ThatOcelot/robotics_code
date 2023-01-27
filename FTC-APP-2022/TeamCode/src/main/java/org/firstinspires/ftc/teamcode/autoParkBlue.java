@@ -21,6 +21,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -33,6 +34,7 @@ import org.openftc.easyopencv.OpenCvInternalCamera;
 
 import java.util.ArrayList;
 
+@Disabled
 @Autonomous
 public class autoParkBlue extends LinearOpMode
 {
@@ -187,22 +189,31 @@ public class autoParkBlue extends LinearOpMode
         }else{
             switch(tagOfInterest.id){
                 case 1:
-                    robot.strafe(10.0,0.0,0.5);
+                    /*robot.strafe(10.0,0.0,0.5);
                     robot.turn(90);
                     robot.strafe(10.0,0,0.5);
                     robot.turn(-90);
                     robot.strafe(10.0,0,0.5);
                     break;
+                    */
+
                 case 2:
+                    /*
                     robot.strafe(20.0,0,0.5);
+
                     break;
+                    */
+
                 case 3:
+                    /*
                     robot.strafe(10.0,0,0.5);
                     robot.turn(-90);
                     robot.strafe(10.0,0,0.5);
                     robot.turn(90);
                     robot.strafe(10.0,0.0,0.5);
                     break;
+                    */
+
             }
         }
 

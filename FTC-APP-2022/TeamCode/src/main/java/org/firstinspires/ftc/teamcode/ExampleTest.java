@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous (name = "Test", group = "Pushbot")
@@ -15,6 +17,12 @@ public class ExampleTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         robot.init(hardwareMap, telemetry);
+
+        robot.leftRear.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightFront.setDirection(DcMotorSimple.Direction.REVERSE);
+        robot.rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
+
+
 
 
 
@@ -31,7 +39,7 @@ public class ExampleTest extends LinearOpMode {
 
 
 
-        robot.strafe(0.5,20.0,5.0);
+        robot.forward(0.5,20);
 
         runtime.reset();
         while (opModeIsActive() && (runtime.seconds()<1.0)){
